@@ -10,4 +10,11 @@ body {
   background-color: #f5f6fa;
 }
 
-
+.dataTable {
+  width: auto!important;
+  max-height: 300px;
+  overflow: auto;
+  display: inline-block;
+  font-size: .8rem;
+  background-color: #fafafa;
+}

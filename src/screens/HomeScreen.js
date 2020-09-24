@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, CardDeck, Card } from 'react-bootstrap';
+import { Container, Row, Col, Form, CardDeck } from 'react-bootstrap';
 
 import Infobox from '../components/Infobox';
 import Map from '../components/Map';
+import TableCountries from '../components/TableCountries';
 
 //https://disease.sh/v3/covid-19/countries
 
@@ -10,6 +11,7 @@ import Map from '../components/Map';
     const [countries, setCountries] = useState([]);
     const [country, setCountry] = useState('wordlwide');
     const [countryInfo, setCountryInfo] = useState({});
+    const [dataTable, setDataTable] = useState([]);
 
     // Cargar los datos de todo el mundo al cargarse la página
     useEffect(() => {
@@ -33,12 +35,13 @@ import Map from '../components/Map';
                         value: country.countryInfo.iso2 // ES
                     }
                 ));
+                setDataTable(data);
                 setCountries(countries);
-            })
-        }
+            });
+        };
         getCountriesData(); 
     }, []);
-
+    
     // Función que se ejecuta al seleccionar un país
     const onCountryChange = async (event) => {
         const countryCode = event.target.value;
@@ -56,13 +59,12 @@ import Map from '../components/Map';
             setCountryInfo(data);
         });
     };
-    console.log(countryInfo);
 
     return (
         <Container fluid>
-            <Row className="d-flex justify-content-center justify-content-md-end align-items-center mt-3 mb-4">
+            <Row className="d-flex justify-content-center justify-content-md-end align-items-center mt-3 mb-4 mx-0">
                 <Col md="auto"></Col>
-                <Col xs={12} sm={6} md={4}>
+                <Col xs={12} sm={6} md={4} className="mx-0">
                     <Form.Control as="select" size="sm" onChange={onCountryChange} value={country}>
                             <option value="wordlwide">Wordlwide</option>
                         {countries.map(country => (
@@ -71,26 +73,28 @@ import Map from '../components/Map';
                     </Form.Control>
                 </Col>
             </Row> 
-            <Row className="d-flex flex-column flex-md-row">
-                <Col sm={12} md={8}>                    
-                    <Row className="d-flex justify-content-around">
-                        <CardDeck>
+            <Row className="d-flex flex-column flex-md-row mx-0 mx-md-0">
+                <Col sm={12} md={8} className="p-0 my-md-0">                    
+                    <Row className="d-flex justify-content-center mx-0" >
+                        <CardDeck  className="mx-0">
                             <Infobox title="Casos Coronavirus" cases={countryInfo.todayCases} total={countryInfo.cases} />
                             <Infobox title="Recuperados" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
                             <Infobox title="Fallecidos" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
                         </CardDeck>
                     </Row>    
-                    <Row>
-                        <Map />
+                    <Row className="mx-0 my-3">
+                        <Map/>
                     </Row>
                 </Col>
-                <Col sm={12} md={4}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Live Cases by Country</Card.Title>                           
-                            <Card.Title>Wordlwide new cases</Card.Title>
-                        </Card.Body>
-                    </Card>
+                <Col sm={12} md={4} className="p-0 my-3">
+                    <Row className="d-flex flex-column align-content-center mx-0">
+                        <h5 className="text-center">Live Cases by Country</h5>
+                        <TableCountries countries={dataTable} />
+                    </Row>
+                    <Row className="d-flex justify-content-center mx-0">
+                        <h4>Wordlwide new cases</h4>
+
+                    </Row>
                 </Col>
             </Row>
             

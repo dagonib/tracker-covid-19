@@ -18,7 +18,7 @@ function App() {
           <Route path="/" component={HomeScreen} exact />
           <Route path="/map" component={MapScreen} />
         </main>
-        <footer className="footer fixed-bottom bg-dark text-white text-center p-3">Footer</footer>
+        <footer className="footer bg-dark text-white text-center p-3">Footer</footer>
       </div>
     </BrowserRouter> 
   );
