@@ -16,5 +16,11 @@ body {
   overflow: auto;
   display: inline-block;
   font-size: .8rem;
-  background-color: #fafafa;
+}
+.dataTable td {
+  padding: .5rem;
+}
+.dataTable tr {
+  display: flex;
+  justify-content: space-between;
 }

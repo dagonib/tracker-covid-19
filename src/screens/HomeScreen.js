@@ -86,7 +86,7 @@ import TableCountries from '../components/TableCountries';
                         <Map/>
                     </Row>
                 </Col>
-                <Col sm={12} md={4} className="p-0 my-3">
+                <Col sm={12} md={4} className="p-0 my-3 mt-md-0">
                     <Row className="d-flex flex-column align-content-center mx-0">
                         <h5 className="text-center">Live Cases by Country</h5>
                         <TableCountries countries={dataTable} />
