@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, CardDeck } from 'react-bootstrap';
 import Infobox from '../components/Infobox';
 import Map from '../components/Map';
 import TableCountries from '../components/TableCountries';
+import { sortData } from '../util';
 
 //https://disease.sh/v3/covid-19/countries
 
@@ -35,7 +36,8 @@ import TableCountries from '../components/TableCountries';
                         value: country.countryInfo.iso2 // ES
                     }
                 ));
-                setDataTable(data);
+                const sortedData = sortData(data);
+                setDataTable(sortedData);
                 setCountries(countries);
             });
         };
