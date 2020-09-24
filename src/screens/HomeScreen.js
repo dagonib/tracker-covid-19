@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
+import { Container, Row, Col, Form, CardDeck, Card } from 'react-bootstrap';
+
+import Infobox from '../components/Infobox';
+import Map from '../components/Map';
 
 //https://disease.sh/v3/covid-19/countries
 
  function HomeScreen() {
     const [countries, setCountries] = useState([]);
     const [country, setCountry] = useState('wordlwide');
+    const [countryInfo, setCountryInfo] = useState({});
 
+    // Cargar los datos de todo el mundo al cargarse la página
+    useEffect(() => {
+        fetch('https://disease.sh/v3/covid-19/all')
+        .then(response => response.json())
+        .then(data => {
+            setCountryInfo(data);
+        })
+    }, []);
+
+    // Obtener el listado de países para el select
     useEffect(() => {
         // Envia un request, espera por este, hace algo con la información
         const getCountriesData = async () => {
@@ -28,10 +39,24 @@ import Form from 'react-bootstrap/Form';
         getCountriesData(); 
     }, []);
 
-    const onCountryChange = (event) => {
+    // Función que se ejecuta al seleccionar un país
+    const onCountryChange = async (event) => {
         const countryCode = event.target.value;
-        setCountry(countryCode);
-    }
+
+        // Obtener los datos del país
+        const url = countryCode === 'wordlwide'
+            ? 'https://disease.sh/v3/covid-19/all'
+            : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+        
+        await fetch(url)
+        .then(response => response.json())
+        .then(data => {           
+            setCountry(countryCode);
+            // Todos los datos del país seleccionado.
+            setCountryInfo(data);
+        });
+    };
+    console.log(countryInfo);
 
     return (
         <Container fluid>
@@ -45,7 +70,30 @@ import Form from 'react-bootstrap/Form';
                         ))}
                     </Form.Control>
                 </Col>
-            </Row>          
+            </Row> 
+            <Row className="d-flex flex-column flex-md-row">
+                <Col sm={12} md={8}>                    
+                    <Row className="d-flex justify-content-around">
+                        <CardDeck>
+                            <Infobox title="Casos Coronavirus" cases={countryInfo.todayCases} total={countryInfo.cases} />
+                            <Infobox title="Recuperados" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
+                            <Infobox title="Fallecidos" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
+                        </CardDeck>
+                    </Row>    
+                    <Row>
+                        <Map />
+                    </Row>
+                </Col>
+                <Col sm={12} md={4}>
+                    <Card>
+                        <Card.Body>
+                            <Card.Title>Live Cases by Country</Card.Title>                           
+                            <Card.Title>Wordlwide new cases</Card.Title>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+            
         </Container>
     )
     
