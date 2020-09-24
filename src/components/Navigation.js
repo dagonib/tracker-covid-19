@@ -7,7 +7,7 @@ export default class Navigation extends Component {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Nav.Link href="/" className="text-white">Tracker Covid 19</Nav.Link>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />             
                 <Navbar.Collapse id="responsive-navbar-nav" className="">
                     <div className="mr-auto"></div>
                     <Nav>
