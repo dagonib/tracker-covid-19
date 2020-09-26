@@ -7,14 +7,13 @@
 body {
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
-  background-color: #f5f6fa;
+  background-color: #f5f6fa!important;
 }
 
 .dataTable {
-  width: auto!important;
-  max-height: 300px;
+  max-height: 280px;
   overflow: auto;
-  display: inline-block;
+  display: grid;
   font-size: .8rem;
 }
 .dataTable td {
@@ -23,4 +22,28 @@ body {
 .dataTable tr {
   display: flex;
   justify-content: space-between;
+}
+
+.map {
+  height: 500px;
+  width: 100%;
+  background-color: #FFF;
+  padding: 1rem;
+  margin-right: 15px;
+  border-radius: 20px;
+  margin-top: 16px;
+  box-shadow: 0 0 8px -4px rgba(0, 0, 0, .5);
+}
+.map .leaflet-container {
+  height: 100%; 
+}
+.info-flag img {
+  width: 100px;
+  border-radius: 5px;
+}
+.info-flag {
+  height: 80px;
+  width: 100%;
+  background-size: cover;
+  border-radius: 8px;
 }

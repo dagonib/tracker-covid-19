@@ -5,6 +5,7 @@ import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import Navigation from './components/Navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "leaflet/dist/leaflet.css";
 
 
 function App() {
