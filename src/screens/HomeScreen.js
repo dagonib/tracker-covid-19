@@ -6,6 +6,7 @@ import Map from '../components/Map';
 import TableCountries from '../components/TableCountries';
 import LineGraph from '../components/LineGraph';
 import { sortData } from '../util';
+import LineGraph2 from '../components/LineGraph2';
 
 //https://disease.sh/v3/covid-19/countries
 
@@ -14,6 +15,9 @@ import { sortData } from '../util';
     const [country, setCountry] = useState('wordlwide');
     const [countryInfo, setCountryInfo] = useState({});
     const [dataTable, setDataTable] = useState([]);
+    const [mapCenter, setMapCenter] = useState({ lat: 34.80745, lng: -40.4796 });
+    const [mapZoom, setMapZoom] = useState(3);
+    const [mapCountries, setMapCountries] = useState([]);
 
     // Cargar los datos de todo el mundo al cargarse la página
     useEffect(() => {
@@ -39,6 +43,7 @@ import { sortData } from '../util';
                 ));
                 const sortedData = sortData(data);
                 setDataTable(sortedData);
+                setMapCountries(data); // Toda la información de los países
                 setCountries(countries);
             });
         };
@@ -60,6 +65,10 @@ import { sortData } from '../util';
             setCountry(countryCode);
             // Todos los datos del país seleccionado.
             setCountryInfo(data);
+            console.log(data.countryInfo)
+            // establecer las coordenadas del pais seleccionado
+            setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+            setMapZoom(4);
         });
     };
 
@@ -86,17 +95,22 @@ import { sortData } from '../util';
                         </CardDeck>
                     </Row>    
                     <Row className="mx-0 my-3">
-                        <Map/>
+                        <Map
+                            center={mapCenter}
+                            zoom={mapZoom}
+                            countries={mapCountries}
+                        />
                     </Row>
                 </Col>
-                <Col sm={12} md={4} className="p-0 my-3 mt-md-0">
+                <Col sm={12} md={4} className="p-0 my-3 mt-md-0 bg-white">
                     <Row className="d-flex flex-column align-content-center mx-0">
-                        <h5 className="text-center">Live Cases by Country</h5>
+                        <h5 className="text-center mt-3">Live Cases by Country</h5>
                         <TableCountries countries={dataTable} />
                     </Row>
                     <Row className="d-flex flex-column align-content-center mx-0">
-                        <h4 className="text-center">Wordlwide new cases</h4>
+                        <h5 className="text-center">Wordlwide new cases</h5>
                         <LineGraph />
+                        <LineGraph2 />
                     </Row>
                 </Col>
             </Row>
