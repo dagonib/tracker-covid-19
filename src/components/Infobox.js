@@ -1,14 +1,16 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 
-function Infobox({ title, cases, total}) {
+function Infobox({ title, cases, total, classes}) {
     return (
-        <Card>
+        <Card className={classes}>
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <Card.Subtitle>{cases}</Card.Subtitle>
-                <Card.Text>Total: {total}</Card.Text> 
             </Card.Body>
+            
+            <Card.Footer>Total: {total}</Card.Footer> 
+            
         </Card>
     )
 }

@@ -5,10 +5,10 @@ function TableCountries({ countries }) {
     return (
         <Table table-sm borderless striped hover size="sm" className="dataTable overflow-auto w-100">
             <tbody className="mx-3">
-            { countries.map(( { country, cases }) => (
-                <tr key={country}>
-                    <td>{country}</td>
-                    <td>{cases}</td>
+            { countries.map(( { name, latest_data }) => (
+                <tr key={name}>
+                    <td>{name}</td>
+                    <td>{latest_data.confirmed}</td>
                 </tr>
             ))} 
             </tbody>
