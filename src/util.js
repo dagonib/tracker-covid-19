@@ -3,7 +3,7 @@ import numeral from 'numeral';
 import { Circle, Popup } from 'react-leaflet';
 
 const casesTypeColors = {
-    cases: {
+    confirmed: {
         hex: "#CC1034",
         rgb: "rgb(204, 16, 52)",
         multiplier: 800
@@ -22,30 +22,28 @@ const casesTypeColors = {
 
 export const sortData = (data) => {
     const sortedData = [...data];
-    return sortedData.sort((a,b) => a.cases > b.cases ? -1 : 1);
+    return sortedData.sort((a,b) => a.latest_data.confirmed > b.latest_data.confirmed ? -1 : 1);
 };
 
-// DRAW circles on the map with interactive tooltop
-export const showDataOnMap = (data, casesType='cases') => (
-    data.map(country => (
-        <Circle
-            center={[country.countryInfo.lat, country.countryInfo.long]}
-            fillOpacity={0.4}
-            color={casesTypeColors[casesType].hex}
-            fillColor={casesTypeColors[casesType].hex}
-            radius={
-                Math.sqrt(country[casesType])* casesTypeColors[casesType].multiplier
-            }
-        >
-            <Popup>
-                <div className="">
-                    <div className="info-flag" roundedCircle style={{ backgroundImage: `url(${country.countryInfo.flag})` }}></div>
-                    <div>{country.country}</div>
-                    <div className="">Cases: {numeral(country.cases).format("0,0")}</div>
-                    <div className="">Recovered: {numeral(country.recovered).format("0,0")}</div>
-                    <div className="">Deaths: {numeral(country.deaths).format("0,0")}</div>
-                </div>
-            </Popup>
-        </Circle>
-    ))
-);
+export const formatData = date => {
+    if (date === 0) {
+        return 'No hay datos';
+    } else {
+        // Fecha en número: 2020-09-27
+        const numDate = date.slice(0, 10);
+        // Fecha en numero en array: [2020, 09, 27]
+        const numsDate = numDate.split('-');
+        // Pasar el numero del mes a nombre del mes
+        const mounths = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const nameMounth = mounths[parseInt(numsDate[1]) - 1];
+        // Fecha en frase
+        const sentenceDate = numsDate[2] + ' de ' + nameMounth + ' de ' + numsDate[0];
+        
+        //Hora: 07:41:05
+        const numTime = date.slice(12, 19);
+
+
+        return sentenceDate + ' ' + numTime; 
+    }
+   
+};

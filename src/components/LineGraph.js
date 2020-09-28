@@ -8,7 +8,7 @@ const options = {
     },
     elements: {
         point: {
-            radius: 0
+            radius: 1
         },
     },
     maintainAspectRadio: false,
@@ -26,7 +26,7 @@ const options = {
             {
                 type: "time",
                 time: {
-                    format: "MM/DD/YYYY",
+                    format: "YYYY-MM-DD",
                     tooltipFormat: "ll",
                 },
             },
@@ -47,35 +47,30 @@ const options = {
 };   
 
 const buildChartData = (data, casesType) => {
-    console.log(casesType);
     const chartData = [];
-    let lastDataPoint;
-    for (let date in data[casesType]) {
-        if (lastDataPoint) {
-            const newDataPoint = {
-                x: date,
-                y: data[casesType][date] - lastDataPoint
-            }
-            chartData.push(newDataPoint);
+    data.forEach(day => {
+        const newDataPoint = {
+            x: day.date,
+            y: day[casesType]
         }
-        lastDataPoint = data[casesType][date];
-    };
-    
+        chartData.push(newDataPoint);
+    })    
     return chartData;
 };
 
-function LineGraph ({ casesType = "cases" }) {
+function LineGraph ({ casesType = "new_confirmed" }) {
     const [data, setData] = useState({});
-
+// https://corona-api.com/timeline
     useEffect(() => {
         const fetchData = async () => {
-            await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
+            await fetch('https://corona-api.com/timeline')
                 .then((response) => {
                     return response.json();
                 })
                 .then((data) => {
-                    let chartData = buildChartData(data, casesType);
+                    let chartData = buildChartData(data.data, casesType);
                     setData(chartData);
+                   
                 })
         };   
         fetchData();
